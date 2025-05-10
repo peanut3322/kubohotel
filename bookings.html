@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Management</title>
+</head>
+<body>
+    <h2>Bookings</h2>
+    <form method="POST">
+        Room ID: <input type="number" name="room_id" required>
+        Guest Info: <input type="text" name="guest_info" required>
+        Check-In: <input type="date" name="check_in" required>
+        Check-Out: <input type="date" name="check_out" required>
+        <input type="submit" name="add_booking" value="Add Booking">
+    </form>
+
+    <?php
+    if (isset($_POST['add_booking'])) {
+        $room_id = $_POST['room_id'];
+        $guest_info = $_POST['guest_info'];
+        $check_in = $_POST['check_in'];
+        $check_out = $_POST['check_out'];
+
+        $sql = "INSERT INTO Bookings (RoomID, GuestInfo, CheckIn, CheckOut) 
+                VALUES ('$room_id', '$guest_info', '$check_in', '$check_out')";
+        $conn->exec($sql);
+        echo "Booking added successfully!";
+    }
+
+    $stmt = $conn->query("SELECT * FROM Bookings");
+    echo "<table border='1'>
+            <tr>
+                <th>Booking ID</th>
+                <th>Room ID</th>
+                <th>Guest Info</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+            </tr>";
+    while ($row = $stmt->fetch()) {
+        echo "<tr>
+                <td>{$row['BookingID']}</td>
+                <td>{$row['RoomID']}</td>
+                <td>{$row['GuestInfo']}</td>
+                <td>{$row['CheckIn']}</td>
+                <td>{$row['CheckOut']}</td>
+              </tr>";
+    }
+    echo "</table>";
+    ?>
+</body>
+</html>
